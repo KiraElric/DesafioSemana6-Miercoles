@@ -1,9 +1,10 @@
 class HistoriesController < ApplicationController
   before_action :set_history, only: %i[ show edit update destroy ]
+  before_action :set_pet #De esta forma se ve en todas las vistas
 
   # GET /histories or /histories.json
-  def index
-    @histories = History.all
+  def index 
+    @histories = @pet.histories
   end
 
   # GET /histories/1 or /histories/1.json
@@ -12,7 +13,7 @@ class HistoriesController < ApplicationController
 
   # GET /histories/new
   def new
-    @history = History.new
+    @history = @pet.histories.build
   end
 
   # GET /histories/1/edit
@@ -21,15 +22,13 @@ class HistoriesController < ApplicationController
 
   # POST /histories or /histories.json
   def create
-    @history = History.new(history_params)
+    @history = @pet.histories.build(history_params)
 
     respond_to do |format|
       if @history.save
-        format.html { redirect_to @history, notice: "History was successfully created." }
-        format.json { render :show, status: :created, location: @history }
+        format.html { redirect_to [@pet, @history], notice: "History was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @history.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -37,12 +36,10 @@ class HistoriesController < ApplicationController
   # PATCH/PUT /histories/1 or /histories/1.json
   def update
     respond_to do |format|
-      if @history.update(history_params)
-        format.html { redirect_to @history, notice: "History was successfully updated." }
-        format.json { render :show, status: :ok, location: @history }
+      if @history.update(history_params.merge(pet: @pet))
+        format.html { redirect_to [@pet, @history], notice: "History was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @history.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -51,8 +48,7 @@ class HistoriesController < ApplicationController
   def destroy
     @history.destroy
     respond_to do |format|
-      format.html { redirect_to histories_url, notice: "History was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to [@pet, @history], notice: "History was successfully destroyed." }
     end
   end
 
@@ -62,8 +58,12 @@ class HistoriesController < ApplicationController
       @history = History.find(params[:id])
     end
 
+    def set_pet
+      @pet = Pet.find(params[:pet_id])
+    end
+
     # Only allow a list of trusted parameters through.
     def history_params
-      params.require(:history).permit(:date, :weight, :height, :description, :pet_id)
+      params.require(:history).permit(:date, :weight, :height, :description)
     end
 end
