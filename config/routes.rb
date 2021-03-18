@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
-  resources :pets do
-    resources :histories
-    #resources :histories, only: [:index, :create, :new]
-    #resources :histories, shallow: true
+  resources :clients do
+    resources :pets do
+      resources :histories
+      #resources :histories, only: [:index, :create, :new]
+      #resources :histories, shallow: true
+    end
   end
 
-  root 'pets#index'
+  root 'clients#index'
 
   #resources :histories, except: [:index, :create, :new]
   

@@ -1,10 +1,12 @@
 class HistoriesController < ApplicationController
   before_action :set_history, only: %i[ show edit update destroy ]
   before_action :set_pet #De esta forma se ve en todas las vistas
+  before_action :set_client
 
   # GET /histories or /histories.json
-  def index 
-    @histories = @pet.histories
+  def index
+    @histories = @client.pets.find(@pet.id).histories
+    #@histories = @pet.histories
   end
 
   # GET /histories/1 or /histories/1.json
@@ -26,7 +28,7 @@ class HistoriesController < ApplicationController
 
     respond_to do |format|
       if @history.save
-        format.html { redirect_to [@pet, @history], notice: "History was successfully created." }
+        format.html { redirect_to [@client, @pet, @history], notice: "History was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -36,8 +38,8 @@ class HistoriesController < ApplicationController
   # PATCH/PUT /histories/1 or /histories/1.json
   def update
     respond_to do |format|
-      if @history.update(history_params.merge(pet: @pet))
-        format.html { redirect_to [@pet, @history], notice: "History was successfully updated." }
+      if @history.update(history_params.merge(client: @client, pet: @pet))
+        format.html { redirect_to [@client, @pet, @history], notice: "History was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -48,7 +50,7 @@ class HistoriesController < ApplicationController
   def destroy
     @history.destroy
     respond_to do |format|
-      format.html { redirect_to [@pet, @history], notice: "History was successfully destroyed." }
+      format.html { redirect_to [@client, @pet, @history], notice: "History was successfully destroyed." }
     end
   end
 
@@ -60,6 +62,10 @@ class HistoriesController < ApplicationController
 
     def set_pet
       @pet = Pet.find(params[:pet_id])
+    end
+
+    def set_client
+      @client = Client.find(params[:client_id])
     end
 
     # Only allow a list of trusted parameters through.

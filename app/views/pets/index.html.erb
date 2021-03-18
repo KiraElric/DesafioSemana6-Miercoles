@@ -20,10 +20,10 @@
         <td><%= pet.breed %></td>
         <td><%= pet.birthday %></td>
         <td><%= pet.histories_count %></td> <!-- Llamada del metodo para contar las veces de visita al vet -->
-        <td><%= link_to 'History', pet_histories_path(pet) %></td>
-        <td><%= link_to 'Show', pet %></td>
-        <td><%= link_to 'Edit', edit_pet_path(pet) %></td>
-        <td><%= link_to 'Destroy', pet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'History', client_pet_histories_path(@client, pet) %></td>
+        <td><%= link_to 'Show', [@client, pet] %></td>
+        <td><%= link_to 'Edit', edit_client_pet_path(@client, pet) %></td>
+        <td><%= link_to 'Destroy', [@client, pet], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -31,4 +31,4 @@
 
 <br>
 
-<%= link_to 'New Pet', new_pet_path %>
+<%= link_to 'New Pet', new_client_pet_path(@client) %>
