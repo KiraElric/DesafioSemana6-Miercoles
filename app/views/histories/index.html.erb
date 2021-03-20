@@ -21,7 +21,7 @@
         <td><%= history.weight %></td>
         <td><%= history.height %></td>
         <td><%= history.description %></td>
-        <td><%= history.pet %></td>
+        <td><%= link_to history.pet, client_pets_path(@client) %></td>
         <td><%= link_to 'Show', [@client, @pet, history] %></td>
         <td><%= link_to 'Edit', edit_client_pet_history_path(@client, @pet, history) %></td>
         <td><%= link_to 'Destroy', [@client, @pet, history], method: :delete, data: { confirm: 'Are you sure?' } %></td>

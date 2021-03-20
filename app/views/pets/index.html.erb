@@ -8,6 +8,7 @@
       <th>Name</th>
       <th>Breed</th>
       <th>Birthday</th>
+      <th>Owner</th>
       <th>Histories count</th>
       <th colspan="4"></th>
     </tr>
@@ -19,6 +20,7 @@
         <td><%= pet.name %></td>
         <td><%= pet.breed %></td>
         <td><%= pet.birthday %></td>
+        <td><%= link_to pet.client, clients_path %></td>
         <td><%= pet.histories_count %></td> <!-- Llamada del metodo para contar las veces de visita al vet -->
         <td><%= link_to 'History', client_pet_histories_path(@client, pet) %></td>
         <td><%= link_to 'Show', [@client, pet] %></td>
