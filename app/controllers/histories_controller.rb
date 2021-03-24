@@ -5,8 +5,8 @@ class HistoriesController < ApplicationController
 
   # GET /histories or /histories.json
   def index
-    @histories = @client.pets.find(@pet.id).histories
-    #@histories = @pet.histories
+    #@histories = @client.pets.find(@pet.id).histories Muy compleja -.-
+    @histories = @pet.histories
   end
 
   # GET /histories/1 or /histories/1.json
@@ -28,7 +28,7 @@ class HistoriesController < ApplicationController
 
     respond_to do |format|
       if @history.save
-        format.html { redirect_to [@client, @pet, @history], notice: "History was successfully created." }
+        format.html { redirect_to [@pet.client, @pet, @history], notice: "History was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -39,7 +39,7 @@ class HistoriesController < ApplicationController
   def update
     respond_to do |format|
       if @history.update(history_params.merge(client: @client, pet: @pet))
-        format.html { redirect_to [@client, @pet, @history], notice: "History was successfully updated." }
+        format.html { redirect_to [@pet.client, @pet, @history], notice: "History was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -50,7 +50,7 @@ class HistoriesController < ApplicationController
   def destroy
     @history.destroy
     respond_to do |format|
-      format.html { redirect_to [@client, @pet, @history], notice: "History was successfully destroyed." }
+      format.html { redirect_to [@pet.client, @pet, @history], notice: "History was successfully destroyed." }
     end
   end
 
