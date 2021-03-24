@@ -38,7 +38,7 @@ class HistoriesController < ApplicationController
   # PATCH/PUT /histories/1 or /histories/1.json
   def update
     respond_to do |format|
-      if @history.update(history_params.merge(client: @client, pet: @pet))
+      if @history.update(history_params.merge(pet: @pet))
         format.html { redirect_to [@pet.client, @pet, @history], notice: "History was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
